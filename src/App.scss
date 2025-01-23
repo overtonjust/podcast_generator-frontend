@@ -28,6 +28,7 @@
         border: none;
         background-color: #FEFFFF;
         font-size: .8em;
+        cursor: pointer;
     }
 
     &__textarea {
@@ -48,10 +49,11 @@
         border-radius: .2em;
         border: none;
         box-shadow: 0 0 2px grey;
+        cursor: pointer;
     }
 }
 
-.blue {
+.active {
     background-color: #2263EB;
     color: #fff;
 }
