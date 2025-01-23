@@ -1,5 +1,5 @@
 // Dependencies
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Formik, Form } from 'formik';
 import './App.scss';
 
@@ -8,7 +8,13 @@ import AudioInput from './components/AudioInput';
 import Textbox from './components/Textbox';
 
 const App = () => {
+  const API = import.meta.env.VITE_API;
   const [activeBtn, setActiveBtn] = useState('audio');
+  const [podcastData, setPodcastData] = useState('');
+  
+  useEffect(() => {
+
+  },[podcastData])
 
   return (
     <Formik
@@ -17,10 +23,18 @@ const App = () => {
       transcript: '',
     }}
     onSubmit={(values, { setSubmitting }) => {
-      setTimeout(() => {
-        alert(JSON.stringify(values, null, 2));
-        setSubmitting(false);
-      }, 400)
+      fetch(`${API}/gemini/${activeBtn === 'audio' ? '' : 'transcript'}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(activeBtn === 'audio' ? 
+              { audio: values.audioFile } :  
+              { transcript: values.transcript }),
+      })
+        .then(res => res.json())
+        .then(res => setPodcastData(res))
+      setSubmitting(false);
     }}
     >
       <Form className='form'>
@@ -53,6 +67,9 @@ const App = () => {
             />
           }
           <button className='form__submit' type="submit">Generate Podcast</button>
+          {podcastData &&
+            <div>{podcastData}</div>
+          }
       </Form>
     </Formik>
   );
