@@ -1,5 +1,5 @@
 // Dependencies
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Formik, Form } from 'formik';
 import './App.scss';
 
@@ -10,7 +10,8 @@ import Textbox from './components/Textbox';
 const App = () => {
   const API = import.meta.env.VITE_API;
   const [activeBtn, setActiveBtn] = useState('audio');
-  const [podcastData, setPodcastData] = useState('');
+  const [podcastData, setPodcastData] = useState(false);
+  const audioRef = useRef(null);
   
   useEffect(() => {
 
@@ -22,8 +23,8 @@ const App = () => {
       audioFile: '',
       transcript: '',
     }}
-    onSubmit={(values, { setSubmitting }) => {
-      fetch(`${API}/gemini/${activeBtn === 'audio' ? '' : 'transcript'}`, {
+    onSubmit={ async (values, { setSubmitting }) => {
+     const response = await fetch(`${API}/gemini/${activeBtn === 'audio' ? '' : 'transcript'}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -31,9 +32,17 @@ const App = () => {
             body: JSON.stringify(activeBtn === 'audio' ? 
               { audio: values.audioFile } :  
               { transcript: values.transcript }),
-      })
-        .then(res => res.json())
-        .then(res => setPodcastData(res))
+      });
+      
+      const audioBlob = await response.blob();
+      const audioUrl = URL.createObjectURL(audioBlob);
+      console.log(audioRef)
+      if(audioRef.current) {
+        audioRef.current.src = audioUrl
+        await audioRef.current.play()
+      }
+
+      setPodcastData(true)
       setSubmitting(false);
     }}
     >
@@ -67,9 +76,12 @@ const App = () => {
             />
           }
           <button className='form__submit' type="submit">Generate Podcast</button>
-          {podcastData &&
-            <div>{podcastData}</div>
-          }
+          <audio
+            controls
+            ref={audioRef}
+            >
+              Your browser does not support this audio element.
+          </audio>
       </Form>
     </Formik>
   );
