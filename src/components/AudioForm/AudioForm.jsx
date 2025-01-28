@@ -1,6 +1,5 @@
 // Dependencies
-import React, { useContext } from 'react';
-import { Formik, Form } from 'formik';
+import React, { useState, useContext } from 'react';
 import { FormContext } from '../../../context/FormContext';
 
 // Components
@@ -8,48 +7,40 @@ import AudioInput from './AudioInput';
 
 const AudioForm = () => {
     const { podcastData, setPodcastData, API } = useContext(FormContext);
+    const [ fileInfo, setFileInfo ] = useState(null);
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        const formData = new FormData();
+        formData.append('audio', fileInfo);
+        console.log(fileInfo, formData);
+
+            fetch(`${API}/gemini/audio`, {
+                method: 'POST',
+                body: formData,
+            })
+                .then(res => res.json())
+                .then(res => setPodcastData(res))
+
+    }
     
     return (
-        <Formik
-        initialValues={{
-          audioFile: '',
-        }}
-        onSubmit={  (values, { setSubmitting }) => {
-         fetch(`${API}/gemini/transcript`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ transcript: values.transcript }),
-          })
-            .then(res => res.json())
-            .then(res => setPodcastData(res))
-          
-          // const audioBlob = await response.blob();
-          // const audioUrl = URL.createObjectURL(audioBlob);
-          // if(audioRef.current) {
-          //   audioRef.current.src = audioUrl
-          //   await audioRef.current.play()
-          // }
-    
-          setSubmitting(false);
-        }}
-        >
-          <Form >
+        <form  onSubmit={handleSubmit}>
                 <AudioInput
-                  label='Insert Audio file'
-                  name='audioFile'
-                  type='file'
+                label='Insert Audio file'
+                name='audioFile'
+                type='file'
+                setFileInfo={setFileInfo}
                 />
-              {/* <audio
+            {/* <audio
                 controls
                 ref={audioRef}
                 >
-                  Your browser does not support this audio element.
-              </audio> */}
+                Your browser does not support this audio element.
+            </audio> */}
             <button className='form__submit' type="submit">Generate Podcast</button>
-          </Form>
-        </Formik>
+        </form>
     );
 };
 

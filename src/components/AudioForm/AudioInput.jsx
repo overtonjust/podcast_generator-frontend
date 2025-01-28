@@ -1,17 +1,20 @@
 // Dependencies
 import React from 'react';
-import { useField } from 'formik';
 
-const AudioInput = ({label, ...props}) => {
-    const [field, meta] = useField(props);
+const AudioInput = ({ setFileInfo, name, label, type }) => {
+
 
     return (
         <>
-            <label htmlFor={props.id || props.name}>{label}</label>
-            <input {...field} {...props} accept='audio/wav, audio/mp3, audio/aiff, audio/aac, audio/ogg, audio/flac' />
-            {meta.touched && meta.error ? (
-                <div className='errorMessage'>{meta.error}</div>
-            ) : null}
+            <label htmlFor={name}>{label}</label>
+            <input 
+                name={name}
+                type={type}
+                accept='audio/wav, audio/mp3, audio/aiff, audio/aac, audio/ogg, audio/flac' 
+                onChange={(event) => {
+                    setFileInfo( event.currentTarget.files[0]);
+                }}
+            />
         </>
     );
 };
