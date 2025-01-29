@@ -52,7 +52,7 @@
 
     &__submit {
         padding: 14px 0;
-        background-color: #F97318;
+        background: linear-gradient(86deg, rgba(249,115,24,1) 42%, rgba(255,167,107,1) 85%);
         color: #fff;
         border-radius: .4em;
         font-size: 1.2rem;
@@ -72,4 +72,9 @@
     background-color: #F97318;
     color: #fff;
     text-shadow:  0 0 .5px grey;
+}
+
+.loader {
+    align-self: center;
+    color: #F97318;
 }

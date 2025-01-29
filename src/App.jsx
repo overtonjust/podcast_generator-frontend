@@ -45,7 +45,8 @@ const App = () => {
         podcastData,
         setPodcastData,
         API,
-        setLoading
+        setLoading,
+        loading
       }}
     >
       <main className='form'>
@@ -64,13 +65,15 @@ const App = () => {
               onClick={() => setActiveBtn('text')}
               ><MdOutlineTextFields/>Enter Transcript
             </button>
-          </div>
-          {activeBtn === 'audio' ?
-           <AudioForm/> :
-           <TextForm/>
-          }
-          {loading && 
-            <FadeLoader/> 
+          </div> 
+          {loading ?
+            <FadeLoader
+            loading={loading} 
+            className='loader'
+            color='#F97318'/> :
+             activeBtn === 'audio' ?
+             <AudioForm/> :
+             <TextForm/>
           }
           {podcastData.length > 1 &&
             <button className='form__button' type='button' onClick={handleSpeechPause}>{textSpeaking ? 'Pause' : 'Resume'}</button>
