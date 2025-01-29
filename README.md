@@ -1,8 +1,24 @@
-# React + Vite
+# AI Podcast Generator
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This tool uses gemini's flash ai to deliver a text/audio to speech podcast format of the data it receives.
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## To Use
+1. Select your input type:
+   - Upload an audio file
+        * audio files accepted are .wav, .mp3, .aiff, .aac, .ogg, .flac
+   - Or provide a transcript 
+2. Review your selection
+3. Click "Generate podcast" to create your episode
+
+## Getting Started
+
+1. Fork and clone this repository.
+2. Fork and clone the [backend repo](https://github.com/overtonjust/podcast_generator-backend).
+3. ```npm install``` on both repos
+4. ```npm start``` on the backend
+5. ```npm run dev``` to start the frontend
+
+
+
+
