@@ -4,17 +4,18 @@ import { FormContext } from '../../../context/FormContext';
 
 // Components
 import AudioInput from './AudioInput';
+import { PiSparkle } from "react-icons/pi";
+
 
 const AudioForm = () => {
-    const { podcastData, setPodcastData, API } = useContext(FormContext);
+    const { podcastData, setPodcastData, API, setLoading } = useContext(FormContext);
     const [ fileInfo, setFileInfo ] = useState(null);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
+        setLoading(true);
         const formData = new FormData();
         formData.append('audio', fileInfo);
-        console.log(fileInfo, formData);
 
             fetch(`${API}/gemini/audio`, {
                 method: 'POST',
@@ -23,13 +24,14 @@ const AudioForm = () => {
                 .then(res => res.json())
                 .then(res => setPodcastData(res))
 
+                setLoading(false);
     }
     
     return (
-        <form  onSubmit={handleSubmit}>
+        <form className='audioForm' onSubmit={handleSubmit}>
                 <AudioInput
                 label='Insert Audio file'
-                name='audioFile'
+                id='audioFile'
                 type='file'
                 setFileInfo={setFileInfo}
                 />
@@ -39,7 +41,7 @@ const AudioForm = () => {
                 >
                 Your browser does not support this audio element.
             </audio> */}
-            <button className='form__submit' type="submit">Generate Podcast</button>
+            <button className='form__submit' type="submit">Generate Podcast <PiSparkle/></button>
         </form>
     );
 };

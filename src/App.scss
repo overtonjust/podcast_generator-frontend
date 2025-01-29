@@ -1,61 +1,75 @@
 
 .form {
-    height: 500px;
-    width: 800px;
+    height: 450px;
+    width: 700px;
     margin-top: 100px;
     border-radius: .2em;
     box-shadow: 0 0 2px grey;
-    background-color: #FEFFFF;
+    background-color: #F5F5F5;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    justify-content: space-around;
+    gap: 6px;
     padding: 20px;
-    overflow-y: scroll;
-    scrollbar-width: none;
+
+    &__icon {
+        align-self: center;
+        font-size: 2rem;
+        color: #F97318;
+    }
 
     &__header {
         align-self: center;
+        background: linear-gradient(86deg, rgba(249,115,24,1) 42%, rgba(255,167,107,1) 85%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        font-size: 2.2em;
+        font-style: italic;
     }
 
     &__options {
         display: flex;
+        width: 100%;
         gap: 12px;
-        margin-bottom: 40px;
     }
 
     &__button {
-        padding: 10px 14px;
-        border-radius: .2em;    
-        box-shadow: 0 0 2px grey;
+        width: 100%;
+        padding: 14px;
+        border-radius: .4em;    
+        box-shadow: 0 0 2px #F97318;
+        text-shadow:  0 0 .5px grey;
+        display: flex;
+        gap: 8px;
+        justify-content: center;
         border: none;
         background-color: #FEFFFF;
-        font-size: .8em;
+        font-size: 1em;
+        color: #F97318;
         cursor: pointer;
-    }
-
-    &__textarea {
-        min-height: 140px;
-        margin-top: auto;
-        box-shadow: 0 0 2px grey;
-        border: none;
-        border-radius: .2em;
-        background-color: #FEFFFF;
-        color: grey;
-        padding: 8px 12px;
     }
 
     &__submit {
-        padding: 6px 0;
-        background-color: #2263EB;
+        padding: 14px 0;
+        background-color: #F97318;
         color: #fff;
-        border-radius: .2em;
+        border-radius: .4em;
+        font-size: 1.2rem;
+        font-style: italic;
         border: none;
-        box-shadow: 0 0 2px grey;
+        box-shadow: 0 0 2px #F97318;
+        text-shadow:  0 0 .5px grey;
         cursor: pointer;
+        display: flex;
+        gap: 6px;
+        justify-content: center;
+        margin-top: auto;
     }
 }
 
 .active {
-    background-color: #2263EB;
+    background-color: #F97318;
     color: #fff;
+    text-shadow:  0 0 .5px grey;
 }

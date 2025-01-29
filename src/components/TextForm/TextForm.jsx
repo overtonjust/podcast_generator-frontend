@@ -2,12 +2,15 @@
 import React, { useContext } from 'react';
 import { Formik, Form } from 'formik';
 import { FormContext } from '../../../context/FormContext';
+import '../Form.scss'
 
 // Components
 import Textbox from './Textbox';
+import { PiSparkle } from "react-icons/pi";
+
 
 const TextForm = () => {
-    const { podcastData, setPodcastData, API } = useContext(FormContext);
+    const { podcastData, setPodcastData, API, setLoading } = useContext(FormContext);
 
     return (
         <Formik
@@ -15,15 +18,16 @@ const TextForm = () => {
           transcript: '',
         }}
         onSubmit={  (values, { setSubmitting }) => {
-         fetch(`${API}/gemini/transcript`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ transcript: values.transcript }),
-          })
-            .then(res => res.json())
-            .then(res => setPodcastData(res))
+            setLoading(true)
+            fetch(`${API}/gemini/transcript`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ transcript: values.transcript }),
+            })
+                .then(res => res.json())
+                .then(res => setPodcastData(res))
           
           // const audioBlob = await response.blob();
           // const audioUrl = URL.createObjectURL(audioBlob);
@@ -31,13 +35,13 @@ const TextForm = () => {
           //   audioRef.current.src = audioUrl
           //   await audioRef.current.play()
           // }
-    
-          setSubmitting(false);
+            setLoading(false)
+            setSubmitting(false);
         }}
         >
-          <Form >
+          <Form className='textForm' >
                 <Textbox
-                  className='form__textarea'
+                  className='textForm__input'
                   name='transcript'
                   placeholder='Paste your transcript here...'
                 />
@@ -47,7 +51,7 @@ const TextForm = () => {
                 >
                   Your browser does not support this audio element.
               </audio> */}
-            <button className='form__submit' type="submit">Generate Podcast</button>
+            <button className='form__submit' type="submit">Generate Podcast<PiSparkle/></button>
           </Form>
         </Formik>
     );
